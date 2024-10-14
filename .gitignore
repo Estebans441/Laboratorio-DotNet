@@ -1,2 +1,6 @@
 .vs
-.data
+bin/
+obj/
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
