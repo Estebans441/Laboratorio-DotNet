@@ -13,9 +13,9 @@ services:
     ports:
       - 1433:1433
     volumes:
-      - ./data/mssql/backups:/var/opt/mssql/backups
-      - ./data/mssql/data:/var/opt/mssql/data
-      - ./data/mssql/log:/var/opt/mssql/log
+      - ./.data/mssql/backups:/var/opt/mssql/backups
+      - ./.data/mssql/data:/var/opt/mssql/data
+      - ./.data/mssql/log:/var/opt/mssql/log
       - ./scripts:/docker-entrypoint-initdb.d
 
 # docker exec -it mssql /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'Password123' -i /docker-entrypoint-initdb.d/init.sql

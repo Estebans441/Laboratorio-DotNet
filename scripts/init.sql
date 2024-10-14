@@ -1,24 +1,23 @@
--- Otorgar propiedad de la base de datos al usuario sa
-IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = 'persona_db')
+-- Create the new database
+IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = 'arq_personas')
 BEGIN
-    CREATE DATABASE persona_db;
-    ALTER AUTHORIZATION ON DATABASE::persona_db TO sa;
+    CREATE DATABASE arq_personas;
 END
 GO
 
--- Cambiar al nuevo contexto de la base de datos
-USE persona_db;
+-- Switch to the new database
+USE arq_personas;
 GO
 
--- Crear el esquema
+-- Create the schema
 IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'arq_per_db')
 BEGIN
-    EXEC('CREATE SCHEMA arq_per_db AUTHORIZATION sa');
+    EXEC('CREATE SCHEMA arq_per_db');
 END
 GO
 
 -- -----------------------------------------------------
--- Tabla `arq_per_db`.`persona`
+-- Table arq_per_db.persona
 -- -----------------------------------------------------
 IF OBJECT_ID('arq_per_db.persona', 'U') IS NULL
 BEGIN
@@ -34,7 +33,7 @@ END
 GO
 
 -- -----------------------------------------------------
--- Tabla `arq_per_db`.`profesion`
+-- Table arq_per_db.profesion
 -- -----------------------------------------------------
 IF OBJECT_ID('arq_per_db.profesion', 'U') IS NULL
 BEGIN
@@ -48,7 +47,7 @@ END
 GO
 
 -- -----------------------------------------------------
--- Tabla `arq_per_db`.`estudios`
+-- Table arq_per_db.estudios
 -- -----------------------------------------------------
 IF OBJECT_ID('arq_per_db.estudios', 'U') IS NULL
 BEGIN
@@ -65,7 +64,7 @@ END
 GO
 
 -- -----------------------------------------------------
--- Tabla `arq_per_db`.`telefono`
+-- Table arq_per_db.telefono
 -- -----------------------------------------------------
 IF OBJECT_ID('arq_per_db.telefono', 'U') IS NULL
 BEGIN
