@@ -1,21 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace personapi_dotnet.Models.Entities;
-
-[Table("Telefono")]
-public partial class Telefono
+namespace personapi_dotnet.Models.Entities
 {
-    [Key]
-    public string Num { get; set; } = null!;
+    public partial class Telefono
+    {
+        [Key]
+        [StringLength(15)]
+        public string Num { get; set; } = null!;
 
-    public string Oper { get; set; } = null!;
+        [Required]
+        [StringLength(45)]
+        public string Oper { get; set; } = null!;
 
-    public int Duenio { get; set; }
+        public int Duenio { get; set; }
 
-    [ForeignKey("Duenio")]
-    [InverseProperty("Telefonos")]
-    public virtual Persona DuenioNavigation { get; set; } = null!;
+        [ForeignKey("Duenio")]
+        [InverseProperty("Telefonos")]
+        public virtual Persona DuenioNavigation { get; set; } = null!;
+    }
 }

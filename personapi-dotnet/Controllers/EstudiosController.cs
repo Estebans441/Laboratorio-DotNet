@@ -5,15 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using personapi_dotnet.Context;
 using personapi_dotnet.Models.Entities;
 
 namespace personapi_dotnet.Controllers
 {
     public class EstudiosController : Controller
     {
-        private readonly PersonaDbContext _context;
+        private readonly DBContext _context;
 
-        public EstudiosController(PersonaDbContext context)
+        public EstudiosController(DBContext context)
         {
             _context = context;
         }

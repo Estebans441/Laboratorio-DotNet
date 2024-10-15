@@ -1,27 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace personapi_dotnet.Models.Entities;
-
-[Table("Persona")]
-public partial class Persona
+namespace personapi_dotnet.Models.Entities
 {
-    [Key]
-    public int Cc { get; set; }
+    public partial class Persona
+    {
+        public Persona()
+        {
+            Estudios = new HashSet<Estudio>();
+            Telefonos = new HashSet<Telefono>();
+        }
 
-    public string Nombre { get; set; } = null!;
+        [Key]
+        public int Cc { get; set; }
 
-    public string Apellido { get; set; } = null!;
+        [Required]
+        [StringLength(45)]
+        public string Nombre { get; set; } = null!;
 
-    public string Genero { get; set; } = null!;
+        [Required]
+        [StringLength(45)]
+        public string Apellido { get; set; } = null!;
 
-    public int? Edad { get; set; }
+        [Required]
+        [StringLength(1)]
+        public string Genero { get; set; } = null!;
 
-    [InverseProperty("CcPerNavigation")]
-    public virtual ICollection<Estudio> Estudios { get; set; } = new List<Estudio>();
+        public int? Edad { get; set; }
 
-    [InverseProperty("DuenioNavigation")]
-    public virtual ICollection<Telefono> Telefonos { get; set; } = new List<Telefono>();
+        [InverseProperty("DuenioNavigation")]
+        public virtual ICollection<Telefono> Telefonos { get; set; }
+
+        [InverseProperty("CcPerNavigation")]
+        public virtual ICollection<Estudio> Estudios { get; set; }
+    }
 }

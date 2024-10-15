@@ -1,11 +1,13 @@
 using Microsoft.EntityFrameworkCore;
-using personapi_dotnet.Models.Entities;
+using personapi_dotnet.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<PersonaDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<DBContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+     .EnableSensitiveDataLogging() 
+     .LogTo(Console.WriteLine, LogLevel.Information));  
 
 builder.Services.AddControllersWithViews();
 

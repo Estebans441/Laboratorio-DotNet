@@ -5,15 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using personapi_dotnet.Context;
 using personapi_dotnet.Models.Entities;
 
 namespace personapi_dotnet.Controllers
 {
     public class TelefonoesController : Controller
     {
-        private readonly PersonaDbContext _context;
+        private readonly DBContext _context;
 
-        public TelefonoesController(PersonaDbContext context)
+        public TelefonoesController(DBContext context)
         {
             _context = context;
         }
@@ -47,24 +48,38 @@ namespace personapi_dotnet.Controllers
         // GET: Telefonoes/Create
         public IActionResult Create()
         {
-            ViewData["Duenio"] = new SelectList(_context.Personas, "Cc", "Cc");
+            var personas = _context.Personas.Select(p => new {
+                p.Cc,
+                NombreCompleto = p.Nombre + " " + p.Apellido
+            }).ToList();
+            ViewData["Duenio"] = new SelectList(personas, "Cc", "NombreCompleto");
             return View();
         }
 
         // POST: Telefonoes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Num,Oper,Duenio")] Telefono telefono)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(telefono);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _context.Add(telefono);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError(string.Empty, "No se pudo guardar el teléfono. Error: " + ex.Message);
+                }
             }
-            ViewData["Duenio"] = new SelectList(_context.Personas, "Cc", "Cc", telefono.Duenio);
+
+            var personas = _context.Personas.Select(p => new {
+                p.Cc,
+                NombreCompleto = p.Nombre + " " + p.Apellido
+            }).ToList();
+            ViewData["Duenio"] = new SelectList(personas, "Cc", "NombreCompleto", telefono.Duenio);
             return View(telefono);
         }
 

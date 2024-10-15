@@ -13,10 +13,15 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Num)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Oper)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DuenioNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DuenioNavigation.Nombre)
             </th>
             <th></th>
         </tr>
@@ -24,6 +29,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+				@Html.DisplayFor(modelItem => item.Num)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Oper)
             </td>
