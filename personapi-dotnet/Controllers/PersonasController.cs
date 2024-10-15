@@ -1,44 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using personapi_dotnet.Context;
 using personapi_dotnet.Models.Entities;
+using personapi_dotnet.Models.ViewModels;
+using personapi_dotnet.Models.Repositories;
 
 namespace personapi_dotnet.Controllers
 {
     public class PersonasController : Controller
     {
-        private readonly DBContext _context;
+        private readonly IPersonaRepository _personaRepository;
 
-        public PersonasController(DBContext context)
+        public PersonasController(IPersonaRepository personaRepository)
         {
-            _context = context;
+            _personaRepository = personaRepository;
         }
 
         // GET: Personas
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Personas.ToListAsync());
+            var personas = await _personaRepository.GetAllAsync();
+            return View(personas);
         }
 
         // GET: Personas/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var persona = await _context.Personas
-                .FirstOrDefaultAsync(m => m.Cc == id);
-            if (persona == null)
-            {
-                return NotFound();
-            }
+            var persona = await _personaRepository.GetByIdAsync(id.Value);
+            if (persona == null) return NotFound();
 
             return View(persona);
         }
@@ -50,86 +40,77 @@ namespace personapi_dotnet.Controllers
         }
 
         // POST: Personas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Cc,Nombre,Apellido,Genero,Edad")] Persona persona)
+        public async Task<IActionResult> Create(PersonaViewModel model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(persona);
-                await _context.SaveChangesAsync();
+                var persona = new Persona
+                {
+                    Cc = model.Cc,
+                    Nombre = model.Nombre,
+                    Apellido = model.Apellido,
+                    Genero = model.Genero,
+                    Edad = model.Edad
+                };
+
+                await _personaRepository.AddAsync(persona);
                 return RedirectToAction(nameof(Index));
             }
-            return View(persona);
+            return View(model);
         }
 
         // GET: Personas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var persona = await _context.Personas.FindAsync(id);
-            if (persona == null)
+            var persona = await _personaRepository.GetByIdAsync(id.Value);
+            if (persona == null) return NotFound();
+
+            var model = new PersonaViewModel
             {
-                return NotFound();
-            }
-            return View(persona);
+                Cc = persona.Cc,
+                Nombre = persona.Nombre,
+                Apellido = persona.Apellido,
+                Genero = persona.Genero,
+                Edad = persona.Edad
+            };
+
+            return View(model);
         }
 
         // POST: Personas/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Cc,Nombre,Apellido,Genero,Edad")] Persona persona)
+        public async Task<IActionResult> Edit(int id, PersonaViewModel model)
         {
-            if (id != persona.Cc)
-            {
-                return NotFound();
-            }
+            if (id != model.Cc) return NotFound();
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(persona);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PersonaExists(persona.Cc))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                var persona = await _personaRepository.GetByIdAsync(id);
+                if (persona == null) return NotFound();
+
+                persona.Nombre = model.Nombre;
+                persona.Apellido = model.Apellido;
+                persona.Genero = model.Genero;
+                persona.Edad = model.Edad;
+
+                await _personaRepository.UpdateAsync(persona);
                 return RedirectToAction(nameof(Index));
             }
-            return View(persona);
+            return View(model);
         }
 
         // GET: Personas/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var persona = await _context.Personas
-                .FirstOrDefaultAsync(m => m.Cc == id);
-            if (persona == null)
-            {
-                return NotFound();
-            }
+            var persona = await _personaRepository.GetByIdAsync(id.Value);
+            if (persona == null) return NotFound();
 
             return View(persona);
         }
@@ -139,19 +120,13 @@ namespace personapi_dotnet.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var persona = await _context.Personas.FindAsync(id);
+            var persona = await _personaRepository.GetByIdAsync(id);
             if (persona != null)
             {
-                _context.Personas.Remove(persona);
+                await _personaRepository.DeleteAsync(persona);
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool PersonaExists(int id)
-        {
-            return _context.Personas.Any(e => e.Cc == id);
         }
     }
 }

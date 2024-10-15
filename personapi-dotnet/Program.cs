@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using personapi_dotnet.Context;
+using personapi_dotnet.Models.Repositories;
+using personapi_dotnet.Models.Repositories.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +11,11 @@ builder.Services.AddDbContext<DBContext>(options =>
      .EnableSensitiveDataLogging() 
      .LogTo(Console.WriteLine, LogLevel.Information));  
 
-builder.Services.AddControllersWithViews();
+// Register repositories
+builder.Services.AddScoped<ITelefonoRepository, TelefonoRepository>();
+builder.Services.AddScoped<IPersonaRepository, PersonaRepository>();
 
+builder.Services.AddControllersWithViews();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
