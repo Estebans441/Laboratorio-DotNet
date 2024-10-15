@@ -14,6 +14,7 @@ builder.Services.AddDbContext<DBContext>(options =>
 // Register repositories
 builder.Services.AddScoped<ITelefonoRepository, TelefonoRepository>();
 builder.Services.AddScoped<IPersonaRepository, PersonaRepository>();
+builder.Services.AddScoped<IProfesionRepository, ProfesionRepository>();
 
 builder.Services.AddControllersWithViews();
 var app = builder.Build();
