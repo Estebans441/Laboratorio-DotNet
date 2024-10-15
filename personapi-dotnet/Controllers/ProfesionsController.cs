@@ -8,6 +8,7 @@ namespace personapi_dotnet.Controllers
     public class ProfesionsController : Controller
     {
         private readonly IProfesionRepository _profesionRepository;
+        private readonly IPersonaRepository _personaRepository;
 
         public ProfesionsController(IProfesionRepository profesionRepository)
         {
