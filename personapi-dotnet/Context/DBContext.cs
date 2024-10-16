@@ -24,9 +24,6 @@ public partial class DBContext : DbContext
 
     public virtual DbSet<Telefono> Telefonos { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Server=localhost,1433;Database=persona_db;User Id=sa;Password=Password123;TrustServerCertificate=True");
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Estudio>(entity =>
