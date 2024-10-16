@@ -27,9 +27,11 @@ public partial class Estudio
 
     [ForeignKey("CcPer")]
     [InverseProperty("Estudios")]
+    [Display(Name = "Cedula Persona")]
     public virtual Persona CcPerNavigation { get; set; } = null!;
 
     [ForeignKey("IdProf")]
     [InverseProperty("Estudios")]
+    [Display(Name = "ID Profesion")]
     public virtual Profesion IdProfNavigation { get; set; } = null!;
 }

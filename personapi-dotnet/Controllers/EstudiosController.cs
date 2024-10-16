@@ -129,8 +129,8 @@ namespace personapi_dotnet.Controllers
             });
 
             var profesiones = await _profesionRepository.GetAllProfesionsAsync();
-            ViewData["CcPer"] = new SelectList(personasSelectList, "Cc", "Cc", estudio.CcPer);
-            ViewData["IdProf"] = new SelectList(profesiones, "Id", "Id", estudio.IdProf);
+            ViewData["CcPer"] = new SelectList(personasSelectList, "Cc", "NombreCompleto", estudio.CcPer);
+            ViewData["IdProf"] = new SelectList(profesiones, "Id", "Nom", estudio.IdProf);
             return View(model);
         }
 
@@ -168,8 +168,8 @@ namespace personapi_dotnet.Controllers
             });
 
             var profesiones = await _profesionRepository.GetAllProfesionsAsync();
-            ViewData["CcPer"] = new SelectList(personasSelectList, "Cc", "Cc", model.CcPer);
-            ViewData["IdProf"] = new SelectList(profesiones, "Id", "Id", model.IdProf);
+            ViewData["CcPer"] = new SelectList(personasSelectList, "Cc", "NombreCompleto", model.CcPer);
+            ViewData["IdProf"] = new SelectList(profesiones, "Id", "Nom", model.IdProf);
             return View(model);
         }
 
