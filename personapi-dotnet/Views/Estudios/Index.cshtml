@@ -1,0 +1,66 @@
+﻿@model IEnumerable<personapi_dotnet.Models.Entities.Estudio>
+
+@{
+    ViewData["Title"] = "Información de Formación Académica de Personas";
+}
+
+<h1>Formación Académica de Personas:</h1>
+
+<p>
+    <a asp-action="Create">Crear Registro</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Univer)
+            </th>
+            <th>
+                Cédula
+            </th>
+            <th>
+                Persona
+            </th>
+            <th>
+                ID Profesión
+            </th>
+            <th>
+                Profesión
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fecha)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Univer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CcPerNavigation.Cc)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CcPerNavigation.Nombre) @Html.DisplayFor(modelItem => item.CcPerNavigation.Apellido)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdProfNavigation.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdProfNavigation.Nom)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { ccPer = item.CcPerNavigation.Cc, idProf = item.IdProfNavigation.Id }) |
+                    @Html.ActionLink("Details", "Details", new { ccPer = item.CcPerNavigation.Cc, idProf = item.IdProfNavigation.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { ccPer = item.CcPerNavigation.Cc, idProf = item.IdProfNavigation.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

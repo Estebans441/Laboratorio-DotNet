@@ -1,0 +1,41 @@
+﻿@model personapi_dotnet.Models.Entities.Telefono
+
+@{
+    ViewData["Title"] = "Eliminar Registro";
+}
+
+<h1>Eliminar Registro</h1>
+
+<h3>¿Estás seguro de eliminar el registro?</h3>
+<div>
+    <h4>Teléfono</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Num)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Num)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Oper)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Oper)
+        </dd>
+
+        <dt class="col-sm-2">
+            Dueño
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DuenioNavigation.Cc) - @Html.DisplayFor(model => model.DuenioNavigation.Nombre) @Html.DisplayFor(model => model.DuenioNavigation.Apellido)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Num" />
+        <input type="submit" value="Eliminar Registro" class="btn btn-danger" /> |
+        <a asp-action="Index">Volver a la lista</a>
+    </form>
+</div>

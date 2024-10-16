@@ -1,0 +1,60 @@
+﻿@model IEnumerable<personapi_dotnet.Models.Entities.Telefono>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Registro telefónico de personas:</h1>
+
+<p>
+    <a asp-action="Create">Crear Registro</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Num)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Oper)
+            </th>
+            <th>
+                Cédula del Dueño
+            </th>
+            <th>
+                Nombre del Dueño
+            </th>
+            <th>
+                Apellido del Dueño
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Num)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Oper)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DuenioNavigation.Cc)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DuenioNavigation.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DuenioNavigation.Apellido)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Num">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Num">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Num">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
