@@ -59,5 +59,15 @@ namespace personapi_dotnet.Models.Repositories.Implementations
         {
             return _context.Estudios.Any(e => e.CcPer == ccPer && e.IdProf == idProf);
         }
+
+        public async Task<bool> PersonaTieneEstudiosAsync(int ccPer)
+        {
+            return await _context.Estudios.AnyAsync(e => e.CcPer == ccPer);
+        }
+
+        public async Task<bool> ProfesionTieneEstudiosAsync(int idProf)
+        {
+            return await _context.Estudios.AnyAsync(e => e.IdProf == idProf);
+        }
     }
 }

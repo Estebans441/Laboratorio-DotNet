@@ -7,6 +7,14 @@
 <h1>Eliminar Registro</h1>
 
 <h4>¿Estás seguro de eliminar el registro?</h4>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @Html.ValidationSummary(true)
+    </div>
+}
+
 <div>
     <h4>Persona</h4>
     <hr />

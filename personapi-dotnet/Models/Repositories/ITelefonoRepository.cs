@@ -12,5 +12,6 @@ namespace personapi_dotnet.Models.Repositories
         Task UpdateTelefonoAsync(Telefono telefono);
         Task DeleteTelefonoAsync(string id);
         bool TelefonoExists(string id);
+        Task<bool> PersonaTieneTelefonosAsync(int duenio);
     }
 }

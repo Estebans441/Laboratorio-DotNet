@@ -3,16 +3,21 @@ using Microsoft.AspNetCore.Mvc;
 using personapi_dotnet.Models.Entities;
 using personapi_dotnet.Models.ViewModels;
 using personapi_dotnet.Models.Repositories;
+using personapi_dotnet.Models.Repositories.Implementations;
 
 namespace personapi_dotnet.Controllers
 {
     public class PersonasController : Controller
     {
         private readonly IPersonaRepository _personaRepository;
+        private readonly ITelefonoRepository _telefonoRepository;
+        private readonly IEstudioRepository _estudioRepository;
 
-        public PersonasController(IPersonaRepository personaRepository)
+        public PersonasController(IPersonaRepository personaRepository, ITelefonoRepository telefonoRepository, IEstudioRepository estudioRepository)
         {
             _personaRepository = personaRepository;
+            _telefonoRepository = telefonoRepository;
+            _estudioRepository = estudioRepository;
         }
 
         // GET: Personas
@@ -121,12 +126,25 @@ namespace personapi_dotnet.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var persona = await _personaRepository.GetByIdAsync(id);
-            if (persona != null)
+
+            if (persona == null)
             {
-                await _personaRepository.DeleteAsync(persona);
+                return NotFound();
             }
+
+            bool tieneEstudios = await _estudioRepository.PersonaTieneEstudiosAsync(id);
+            bool tieneTelefonos = await _telefonoRepository.PersonaTieneTelefonosAsync(id);
+
+            if (tieneEstudios || tieneTelefonos)
+            {
+                ModelState.AddModelError("", "No se puede eliminar la persona porque tiene estudios o teléfonos asociados.");
+                return View(persona);
+            }
+
+            await _personaRepository.DeleteAsync(persona);
 
             return RedirectToAction(nameof(Index));
         }
+
     }
 }
