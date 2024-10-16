@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<personapi_dotnet.Models.Entities.Estudio>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Información de Formación Académica de Personas";
 }
 
 <h1>Index</h1>
@@ -28,26 +28,27 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fecha)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Univer)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CcPerNavigation.Cc)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdProfNavigation.Id)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fecha)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Univer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CcPerNavigation.Cc)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdProfNavigation.Id)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { ccPer = item.CcPerNavigation.Cc, idProf = item.IdProfNavigation.Id }) |
+                    @Html.ActionLink("Details", "Details", new { ccPer = item.CcPerNavigation.Cc, idProf = item.IdProfNavigation.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { ccPer = item.CcPerNavigation.Cc, idProf = item.IdProfNavigation.Id })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

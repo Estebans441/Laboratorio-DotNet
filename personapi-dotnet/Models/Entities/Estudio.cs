@@ -13,13 +13,16 @@ namespace personapi_dotnet.Models.Entities;
 public partial class Estudio
 {
     [Key]
+    [Display(Name = "Profesion")]
     public int IdProf { get; set; }
 
+    [Display(Name = "Persona")]
     [Key]
     public int CcPer { get; set; }
 
     public DateOnly? Fecha { get; set; }
 
+    [Display(Name = "Universidad")]
     public string? Univer { get; set; }
 
     [ForeignKey("CcPer")]
