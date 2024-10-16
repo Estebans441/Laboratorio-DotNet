@@ -46,22 +46,28 @@ namespace personapi_dotnet.Controllers
         }
 
         // GET: Estudios/Create
+        // GET: Estudios/Create
         public async Task<IActionResult> Create()
         {
-            // Obtener las personas del repositorio de personas
+            // Obtener las personas del repositorio y crear una lista que incluya ID y nombre completo
             var personas = await _personaRepository.GetAllAsync();
             var personasSelectList = personas.Select(p => new
             {
                 Cc = p.Cc,
-                NombreCompleto = p.Nombre + " " + p.Apellido
+                NombreCompleto = $"{p.Cc} - {p.Nombre} {p.Apellido}"
             });
 
-            // Obtener las profesiones del repositorio de profesiones
+            // Obtener las profesiones del repositorio y crear una lista que incluya ID y nombre
             var profesiones = await _profesionRepository.GetAllProfesionsAsync();
+            var profesionesSelectList = profesiones.Select(p => new
+            {
+                Id = p.Id,
+                NombreProfesion = $"{p.Id} - {p.Nom}"
+            });
 
             // Asignar las listas al ViewData
             ViewData["CcPer"] = new SelectList(personasSelectList, "Cc", "NombreCompleto");
-            ViewData["IdProf"] = new SelectList(profesiones, "Id", "Nom");
+            ViewData["IdProf"] = new SelectList(profesionesSelectList, "Id", "NombreProfesion");
             return View();
         }
 
@@ -89,12 +95,18 @@ namespace personapi_dotnet.Controllers
             var personasSelectList = personas.Select(p => new
             {
                 Cc = p.Cc,
-                NombreCompleto = p.Nombre + " " + p.Apellido
+                NombreCompleto = $"{p.Cc} - {p.Nombre} {p.Apellido}"
             });
 
             var profesiones = await _profesionRepository.GetAllProfesionsAsync();
+            var profesionesSelectList = profesiones.Select(p => new
+            {
+                Id = p.Id,
+                NombreProfesion = $"{p.Id} - {p.Nom}"
+            });
+
             ViewData["CcPer"] = new SelectList(personasSelectList, "Cc", "NombreCompleto", model.CcPer);
-            ViewData["IdProf"] = new SelectList(profesiones, "Id", "Nom", model.IdProf);
+            ViewData["IdProf"] = new SelectList(profesionesSelectList, "Id", "NombreProfesion", model.IdProf);
             return View(model);
         }
 
@@ -120,17 +132,23 @@ namespace personapi_dotnet.Controllers
                 Univer = estudio.Univer
             };
 
-            // Recargamos las listas de personas y profesiones desde los repositorios
+            // Recargamos las listas de personas y profesiones
             var personas = await _personaRepository.GetAllAsync();
             var personasSelectList = personas.Select(p => new
             {
                 Cc = p.Cc,
-                NombreCompleto = p.Nombre + " " + p.Apellido
+                NombreCompleto = $"{p.Cc} - {p.Nombre} {p.Apellido}"
             });
 
             var profesiones = await _profesionRepository.GetAllProfesionsAsync();
+            var profesionesSelectList = profesiones.Select(p => new
+            {
+                Id = p.Id,
+                NombreProfesion = $"{p.Id} - {p.Nom}"
+            });
+
             ViewData["CcPer"] = new SelectList(personasSelectList, "Cc", "NombreCompleto", estudio.CcPer);
-            ViewData["IdProf"] = new SelectList(profesiones, "Id", "Nom", estudio.IdProf);
+            ViewData["IdProf"] = new SelectList(profesionesSelectList, "Id", "NombreProfesion", estudio.IdProf);
             return View(model);
         }
 
@@ -159,19 +177,26 @@ namespace personapi_dotnet.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            // Recargamos las listas de personas y profesiones si el modelo no es válido
+            // Si el modelo no es válido, recargamos las listas de personas y profesiones
             var personas = await _personaRepository.GetAllAsync();
             var personasSelectList = personas.Select(p => new
             {
                 Cc = p.Cc,
-                NombreCompleto = p.Nombre + " " + p.Apellido
+                NombreCompleto = $"{p.Cc} - {p.Nombre} {p.Apellido}"
             });
 
             var profesiones = await _profesionRepository.GetAllProfesionsAsync();
+            var profesionesSelectList = profesiones.Select(p => new
+            {
+                Id = p.Id,
+                NombreProfesion = $"{p.Id} - {p.Nom}"
+            });
+
             ViewData["CcPer"] = new SelectList(personasSelectList, "Cc", "NombreCompleto", model.CcPer);
-            ViewData["IdProf"] = new SelectList(profesiones, "Id", "Nom", model.IdProf);
+            ViewData["IdProf"] = new SelectList(profesionesSelectList, "Id", "NombreProfesion", model.IdProf);
             return View(model);
         }
+
 
         // GET: Estudios/Delete
         public async Task<IActionResult> Delete(int? ccPer, int? idProf)

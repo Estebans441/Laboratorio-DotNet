@@ -1,7 +1,7 @@
 ﻿@model personapi_dotnet.Models.Entities.Estudio
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Eliminar Registro";
 }
 
 <h1>Eliminar Registro</h1>
@@ -10,32 +10,35 @@
 <div>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Fecha)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Fecha)
         </dd>
-        <dt class = "col-sm-2">
+
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Univer)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Univer)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CcPerNavigation)
+
+        <dt class="col-sm-2">
+            Persona
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CcPerNavigation.Cc)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CcPerNavigation.Cc) - @Html.DisplayFor(model => model.CcPerNavigation.Nombre) @Html.DisplayFor(model => model.CcPerNavigation.Apellido)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdProfNavigation)
+
+        <dt class="col-sm-2">
+            Profesión
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdProfNavigation.Id)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IdProfNavigation.Id) - @Html.DisplayFor(model => model.IdProfNavigation.Nom)
         </dd>
     </dl>
-    
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="IdProf" />
         <input type="hidden" asp-for="CcPer" />

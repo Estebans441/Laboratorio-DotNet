@@ -7,24 +7,44 @@
 
 <h1>Editar Registros de Estudio</h1>
 
-<h4>Modifica los datos de formación acádemica</h4>
+<h4>Modifica los datos de formación académica</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!-- Campos ocultos para las claves primarias -->
             <input type="hidden" asp-for="IdProf" />
             <input type="hidden" asp-for="CcPer" />
+
+            <!-- Mostrar la persona (no editable) -->
+            <div class="form-group">
+                <label class="control-label">Persona</label>
+                <input class="form-control" value="@Model.CcPer" readonly />
+            </div>
+
+            <!-- Mostrar la profesión (no editable) -->
+            <div class="form-group">
+                <label class="control-label">Profesión</label>
+                <input class="form-control" value="@Model.IdProf" readonly />
+            </div>
+
+            <!-- Campo editable para la fecha -->
             <div class="form-group">
                 <label asp-for="Fecha" class="control-label"></label>
                 <input asp-for="Fecha" class="form-control" />
                 <span asp-validation-for="Fecha" class="text-danger"></span>
             </div>
+
+            <!-- Campo editable para la universidad -->
             <div class="form-group">
                 <label asp-for="Univer" class="control-label"></label>
                 <input asp-for="Univer" class="form-control" />
                 <span asp-validation-for="Univer" class="text-danger"></span>
             </div>
+
+            <!-- Botón para guardar cambios -->
             <div class="form-group">
                 <input type="submit" value="Guardar cambios" class="btn btn-primary" />
             </div>
@@ -37,5 +57,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

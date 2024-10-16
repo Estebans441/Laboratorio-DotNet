@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<personapi_dotnet.Models.Entities.Estudio>
 
 @{
-    ViewData["Title"] = "Información de Formación Acadmica de Personas";
+    ViewData["Title"] = "Información de Formación Académica de Personas";
 }
 
-<h1>Formación Acádemica de personas:</h1>
+<h1>Formación Académica de Personas:</h1>
 
 <p>
     <a asp-action="Create">Crear Registro</a>
@@ -19,10 +19,16 @@
                 @Html.DisplayNameFor(model => model.Univer)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CcPerNavigation)
+                Cédula
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdProfNavigation)
+                Persona
+            </th>
+            <th>
+                ID Profesión
+            </th>
+            <th>
+                Profesión
             </th>
             <th></th>
         </tr>
@@ -41,7 +47,13 @@
                     @Html.DisplayFor(modelItem => item.CcPerNavigation.Cc)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.CcPerNavigation.Nombre) @Html.DisplayFor(modelItem => item.CcPerNavigation.Apellido)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.IdProfNavigation.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdProfNavigation.Nom)
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { ccPer = item.CcPerNavigation.Cc, idProf = item.IdProfNavigation.Id }) |

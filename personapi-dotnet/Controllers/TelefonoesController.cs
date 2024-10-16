@@ -30,7 +30,6 @@ namespace personapi_dotnet.Controllers
 
             var telefono = await _telefonoRepository.GetTelefonoByIdAsync(id);
             if (telefono == null) return NotFound();
-
             return View(telefono);
         }
 
@@ -38,7 +37,11 @@ namespace personapi_dotnet.Controllers
         public IActionResult Create()
         {
             var personas = _personaRepository.GetAllAsync().Result;
-            ViewData["Duenio"] = new SelectList(personas, "Cc", "NombreCompleto");
+            ViewData["Duenio"] = new SelectList(personas.Select(p => new
+            {
+                Cc = p.Cc,
+                NombreCompleto = $"{p.Cc} - {p.Nombre} {p.Apellido}"
+            }), "Cc", "NombreCompleto");
             return View();
         }
 
@@ -56,7 +59,11 @@ namespace personapi_dotnet.Controllers
 
             // Re-populate personas if the model state is invalid
             var personas = _personaRepository.GetAllAsync().Result;
-            ViewData["Duenio"] = new SelectList(personas, "Cc", "NombreCompleto", model.Duenio);
+            ViewData["Duenio"] = new SelectList(personas.Select(p => new
+            {
+                Cc = p.Cc,
+                NombreCompleto = $"{p.Cc} - {p.Nombre} {p.Apellido}"
+            }), "Cc", "NombreCompleto", model.Duenio);
             return View(model);
         }
 
@@ -69,7 +76,12 @@ namespace personapi_dotnet.Controllers
             if (telefono == null) return NotFound();
 
             var model = new TelefonoViewModel { Num = telefono.Num, Oper = telefono.Oper, Duenio = telefono.Duenio };
-            ViewData["Duenio"] = new SelectList(_personaRepository.GetAllAsync().Result, "Cc", "Cc", model.Duenio);
+            var personas = await _personaRepository.GetAllAsync();
+            ViewData["Duenio"] = new SelectList(personas.Select(p => new
+            {
+                Cc = p.Cc,
+                NombreCompleto = $"{p.Cc} - {p.Nombre} {p.Apellido}"
+            }), "Cc", "NombreCompleto", model.Duenio);
             return View(model);
         }
 
@@ -87,7 +99,12 @@ namespace personapi_dotnet.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["Duenio"] = new SelectList(_personaRepository.GetAllAsync().Result, "Cc", "Cc", model.Duenio);
+            var personas = await _personaRepository.GetAllAsync();
+            ViewData["Duenio"] = new SelectList(personas.Select(p => new
+            {
+                Cc = p.Cc,
+                NombreCompleto = $"{p.Cc} - {p.Nombre} {p.Apellido}"
+            }), "Cc", "NombreCompleto", model.Duenio);
             return View(model);
         }
 
